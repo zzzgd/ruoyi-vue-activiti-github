@@ -14,6 +14,10 @@
 则表示这个作为变量来completeTask,第五个是默认值. 其中`--__--`表示, 如果是单选框类型, 则这个符号分隔开两个选择,
 通过value的下标来选择.
 
+目前支持 text, textarea, select, radio.   
+其中radio, 是通过第五个默认值来实现, `--__--`分割, 下标序号作为实际值.  
+select是通过第五个默认值, 这里的默认值是字典中的type名. 即表`sys_dict_type`中的dict_type. 会去取这个字典的枚举作为下拉框
+
 
 ### 2. 整体流程
 1. 创建bpmn流程图, 将审批人assignee,或者候选人设置好, 审批节点上的formProperties加上. 后面判断分支采用的变量是formProperties的id
