@@ -10,6 +10,8 @@
         <result property="controlId"    column="control_id"    />
         <result property="controlName"    column="control_name"    />
         <result property="controlValue"    column="control_value"    />
+        <result property="controlType"    column="control_type"    />
+        <result property="controlDefault"    column="control_default"    />
         <result property="taskNodeName"    column="task_node_name"    />
         <result property="createName"    column="create_name"    />
         <result property="createBy"    column="create_by"    />
@@ -17,7 +19,7 @@
     </resultMap>
 
     <sql id="selectActWorkflowFormDataVo">
-        select id, business_key, form_key, control_id,control_name, control_value, task_node_name, create_name,create_by, create_time from ACT_WORKFLOW_FORMDATA
+        select id, business_key, form_key, control_id,control_name, control_value, control_type,control_default,task_node_name, create_name,create_by, create_time from ACT_WORKFLOW_FORMDATA
     </sql>
 
     <select id="selectActWorkflowFormDataList" parameterType="ActWorkflowFormData" resultMap="ActWorkflowFormDataResult">
@@ -27,6 +29,8 @@
             <if test="formKey != null  and formKey != ''"> and form_key = #{formKey}</if>
             <if test="controlId != null  and controlId != ''"> and control_id = #{controlId}</if>
             <if test="controlValue != null  and controlValue != ''"> and control_value = #{controlValue}</if>
+            <if test="controlType != null  and controlType != ''"> and control_type = #{controlType}</if>
+            <if test="controlDefault != null  and controlDefault != ''"> and control_default = #{controlDefault}</if>
             <if test="taskNodeName != null  and taskNodeName != ''"> and task_node_name = #{taskNodeName}</if>
         </where>
     </select>
@@ -48,6 +52,8 @@
             <if test="controlId != null">control_id,</if>
             <if test="controlName != null">control_name,</if>
             <if test="controlValue != null">control_value,</if>
+            <if test="controlType != null">control_type,</if>
+            <if test="controlDefault != null">control_default,</if>
             <if test="taskNodeName != null">task_node_name,</if>
             <if test="createBy != null">create_by,</if>
             <if test="createTime != null">create_time,</if>
@@ -58,6 +64,8 @@
             <if test="controlId != null">#{controlId},</if>
             <if test="controlName != null">#{controlName},</if>
             <if test="controlValue != null">#{controlValue},</if>
+            <if test="controlType != null">#{controlType},</if>
+            <if test="controlDefault != null">#{controlDefault},</if>
             <if test="taskNodeName != null">#{taskNodeName},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
@@ -65,9 +73,9 @@
     </insert>
 
     <insert id="insertActWorkflowFormDatas"  useGeneratedKeys="true" >
-        insert into ACT_WORKFLOW_FORMDATA (business_key,form_key,control_id,control_name,control_value,task_node_name,create_by,create_time,create_name) values
+        insert into ACT_WORKFLOW_FORMDATA (business_key,form_key,control_id,control_name,control_value,control_type,control_default,task_node_name,create_by,create_time,create_name) values
         <foreach collection="param2" item="awfd" index="index" separator=",">
-            (#{awfd.businessKey},#{awfd.formKey},#{awfd.controlId},#{awfd.controlName}, #{awfd.controlValue},#{awfd.taskNodeName},#{param1},#{param3},#{param4})
+            (#{awfd.businessKey},#{awfd.formKey},#{awfd.controlId},#{awfd.controlName}, #{awfd.controlValue}, #{awfd.controlType}, #{awfd.controlDefault},#{awfd.taskNodeName},#{param1},#{param3},#{param4})
         </foreach>
     </insert>
 
@@ -79,6 +87,8 @@
             <if test="controlId != null">control_id = #{controlId},</if>
             <if test="controlName != null">control_name = #{controlName},</if>
             <if test="controlValue != null">control_value = #{controlValue},</if>
+            <if test="controlType != null">control_type = #{controlType},</if>
+            <if test="controlDefault != null">control_default = #{controlDefault},</if>
             <if test="taskNodeName != null">task_node_name = #{taskNodeName},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>

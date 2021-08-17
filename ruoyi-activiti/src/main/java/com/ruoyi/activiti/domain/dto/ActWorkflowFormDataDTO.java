@@ -26,6 +26,7 @@ public class ActWorkflowFormDataDTO extends BaseEntity
 
     private String controlIsParam;
 
+
     /** 表单值 */
     private String controlValue;
     private String controlDefault;
@@ -83,4 +84,6 @@ public class ActWorkflowFormDataDTO extends BaseEntity
     public void setControlType(String controlType) {
         this.controlType = controlType;
     }
+
+
 }

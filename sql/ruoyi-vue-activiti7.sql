@@ -28,6 +28,8 @@ CREATE TABLE `ACT_WORKFLOW_FORMDATA`  (
                                           `control_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表单id',
                                           `control_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表单名',
                                           `control_value` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表单值',
+                                          `control_type` varchar(20)  CHARACTER SET utf8 COLLATE utf8_general_ci NULL  DEFAULT NULL COMMENT '表单类型',
+                                          `control_default` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '默认值',
                                           `task_node_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '任务节点名称',
                                           `create_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建者姓名',
                                           `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建者',
@@ -427,6 +429,12 @@ INSERT INTO `sys_dict_data` VALUES (102, 3, '失败', '2', 'activiti_flow_type',
 INSERT INTO `sys_dict_data` VALUES (103, 1, '年假', '年假', 'activiti_leave_type', NULL, NULL, 'N', '0', 'admin', '2020-10-28 00:07:14', 'admin', '2020-11-04 17:41:02', NULL);
 INSERT INTO `sys_dict_data` VALUES (104, 2, '病假', '病假', 'activiti_leave_type', NULL, NULL, 'N', '0', 'admin', '2020-10-28 00:07:27', 'admin', '2020-11-04 17:41:07', NULL);
 INSERT INTO `sys_dict_data` VALUES (105, 3, '事假', '事假', 'activiti_leave_type', NULL, NULL, 'N', '0', 'admin', '2020-10-28 00:07:48', 'admin', '2020-11-04 17:41:12', NULL);
+INSERT INTO sys_dict_data (dict_code, dict_sort, dict_label, dict_value, dict_type, css_class, list_class, is_default, status, create_by, create_time, update_by, update_time, remark) VALUES(106, 1, '运营审核', 'yunying', 'activiti_customercomplaint_type', NULL, NULL, 'N', '0', 'admin', '2021-08-12 17:41:42', '', NULL, NULL);
+INSERT INTO sys_dict_data (dict_code, dict_sort, dict_label, dict_value, dict_type, css_class, list_class, is_default, status, create_by, create_time, update_by, update_time, remark) VALUES(107, 2, '代理商处理', 'dailishang', 'activiti_customercomplaint_type', NULL, NULL, 'N', '0', 'admin', '2021-08-12 17:41:54', '', NULL, NULL);
+INSERT INTO sys_dict_data (dict_code, dict_sort, dict_label, dict_value, dict_type, css_class, list_class, is_default, status, create_by, create_time, update_by, update_time, remark) VALUES(108, 3, '座席回访', 'zuoxi', 'activiti_customercomplaint_type', NULL, NULL, 'N', '0', 'admin', '2021-08-12 17:42:04', '', NULL, NULL);
+INSERT INTO sys_dict_data (dict_code, dict_sort, dict_label, dict_value, dict_type, css_class, list_class, is_default, status, create_by, create_time, update_by, update_time, remark) VALUES(109, 0, '运营审核', '1', 'ACT_FLOW_complaint_consumer_handle_type', NULL, NULL, 'N', '0', 'admin', '2021-08-16 14:25:11', '', NULL, NULL);
+INSERT INTO sys_dict_data (dict_code, dict_sort, dict_label, dict_value, dict_type, css_class, list_class, is_default, status, create_by, create_time, update_by, update_time, remark) VALUES(110, 1, '自行处理', '2', 'ACT_FLOW_complaint_consumer_handle_type', NULL, NULL, 'N', '0', 'admin', '2021-08-16 14:25:18', '', NULL, NULL);
+INSERT INTO sys_dict_data (dict_code, dict_sort, dict_label, dict_value, dict_type, css_class, list_class, is_default, status, create_by, create_time, update_by, update_time, remark) VALUES(111, 2, '代理商处理', '3', 'ACT_FLOW_complaint_consumer_handle_type', NULL, NULL, 'N', '0', 'admin', '2021-08-16 14:25:41', '', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_dict_type
@@ -461,6 +469,7 @@ INSERT INTO `sys_dict_type` VALUES (9, '操作类型', 'sys_oper_type', '0', 'ad
 INSERT INTO `sys_dict_type` VALUES (10, '系统状态', 'sys_common_status', '0', 'admin', '2020-10-22 14:27:04', '', NULL, '登录状态列表');
 INSERT INTO `sys_dict_type` VALUES (100, 'OA状态', 'activiti_flow_type', '0', 'admin', '2020-10-28 00:01:56', 'admin', '2020-10-28 00:02:43', 'OA流程状态');
 INSERT INTO `sys_dict_type` VALUES (101, '请假类型', 'activiti_leave_type', '0', 'admin', '2020-10-28 00:06:10', 'admin', '2020-10-28 00:06:34', NULL);
+INSERT INTO sys_dict_type (dict_id, dict_name, dict_type, status, create_by, create_time, update_by, update_time, remark) VALUES(102, '客诉工单审批类型', 'activiti_customercomplaint_type', '0', 'admin', '2021-08-12 17:36:28', '', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_job
@@ -647,6 +656,12 @@ INSERT INTO `sys_menu` VALUES (2007, '代办任务', 2006, 1, 'task', 'activiti/
 INSERT INTO `sys_menu` VALUES (2008, '我的OA', 0, 5, 'OA', NULL, 1, 0, 'M', '0', '0', '', 'guide', 'admin', '2020-11-10 22:13:34', 'admin', '2020-11-10 22:15:29', '');
 INSERT INTO `sys_menu` VALUES (2009, '历史流程', 0, 7, 'open', NULL, 1, 0, 'M', '0', '0', NULL, 'eye-open', 'admin', '2020-11-10 22:17:36', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2010, '请假历史', 2009, 1, 'leaveAll', 'workflow/leave/leaveAll', 1, 0, 'C', '0', '0', 'workflow:leave:list', '#', 'admin', '2020-10-28 22:30:57', 'admin', '2020-11-10 22:45:16', '请假菜单');
+INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, `path`, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES(2011, '客诉工单', 2008, 2, 'customercomplaint', 'workflow/customercomplaint/index', 1, 0, 'C', '0', '0', 'workflow:customercomplaint:list', 'slider', 'admin', '2021-08-12 18:33:30', 'admin', '2021-08-12 18:35:31', '');
+INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, `path`, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES(2012, '客诉工单查询', 2011, 1, '', NULL, 1, 0, 'F', '0', '0', 'workflow:customercomplaint:query', '#', 'admin', '2021-08-12 18:38:49', '', NULL, '');
+INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, `path`, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES(2013, '客诉工单新增', 2011, 2, '', NULL, 1, 0, 'F', '0', '0', 'workflow:customercomplaint:add', '#', 'admin', '2021-08-12 18:39:22', '', NULL, '');
+INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, `path`, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES(2014, '客诉工单修改', 2011, 3, '', NULL, 1, 0, 'F', '0', '0', 'workflow:customercomplaint:edit', '#', 'admin', '2021-08-12 18:39:57', 'admin', '2021-08-12 18:40:09', '');
+INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, `path`, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES(2015, '客诉工单删除', 2011, 4, '', NULL, 1, 0, 'F', '0', '0', 'workflow:customercomplaint:remove', '#', 'admin', '2021-08-12 18:40:51', 'admin', '2021-08-12 18:41:06', '');
+INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, `path`, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES(2016, '客诉工单导出', 2011, 5, '', NULL, 1, 0, 'F', '0', '0', 'workflow:customercomplaint:export', '#', 'admin', '2021-08-12 18:41:35', '', NULL, '');
 
 -- ----------------------------
 -- Table structure for sys_notice
@@ -840,6 +855,24 @@ INSERT INTO `sys_user` VALUES (101, 103, 'guanyu', '关羽', '00', '2@ry.com', '
 INSERT INTO `sys_user` VALUES (102, 100, 'zhugeliang', '诸葛亮', '00', '3@ry.com', '18600000003', '0', '', '$2a$10$iOYs0XUxmyOF5PDxNGyNt.qf6.LpUzBPRBhbIAwlmrN7lgjjBd0KO', '0', '0', '', NULL, 'admin', '2020-11-04 14:41:37', 'admin', '2020-11-10 22:30:37', NULL);
 INSERT INTO `sys_user` VALUES (103, 103, 'zhaoyun', '赵云', '00', '4@ry.com', '18600000004', '0', '', '$2a$10$JILiC3cILDSk0EgDprEr9OS1pNxp9fM8vuXBC.VRxds.bwHFE/gba', '0', '0', '', NULL, 'admin', '2020-11-08 15:52:30', 'admin', '2020-11-10 22:30:44', NULL);
 INSERT INTO `sys_user` VALUES (104, 103, 'zhoucang', '周仓', '00', '5@ry.com', '18600000005', '0', '', '$2a$10$ekiSpWpUVv8/WuUS1up8XuNah.FVbJ5ZC9XdvqWxBE5qc2qP6KF6W', '0', '0', '', NULL, 'admin', '2020-11-04 14:39:07', 'admin', '2020-11-10 22:29:48', NULL);
+INSERT INTO sys_user
+(user_id, dept_id, user_name, nick_name, user_type, email, phonenumber, sex, avatar, password, status, del_flag, login_ip, login_date, create_by, create_time, update_by, update_time, remark)
+VALUES(108, 200, 'gongdan_sh', '工单岗审核', '00', '1@2.com', '14012341234', '0', '', '$2a$10$sxVHd0xE/hbLb8EKqZHnQ.BbMuyQ1sgrZ/KWz1qz/4mzuyJWL6jPm', '0', '0', '', NULL, 'admin', '2021-08-13 11:02:51', '', NULL, NULL);
+INSERT INTO sys_user
+(user_id, dept_id, user_name, nick_name, user_type, email, phonenumber, sex, avatar, password, status, del_flag, login_ip, login_date, create_by, create_time, update_by, update_time, remark)
+VALUES(109, 200, 'yunying_sh', '运营审核', '00', '3@2.com', '13012345667', '0', '', '$2a$10$xta72N/9rnv9d5IWENIT6ONJMujIH2hNCZ1nLDjj8Jq2UzZHv9E2W', '0', '0', '', NULL, 'admin', '2021-08-13 11:04:29', '', NULL, NULL);
+INSERT INTO sys_user
+(user_id, dept_id, user_name, nick_name, user_type, email, phonenumber, sex, avatar, password, status, del_flag, login_ip, login_date, create_by, create_time, update_by, update_time, remark)
+VALUES(110, 200, 'dailishang', '代理商处理', '00', '4@3.com', '14556755465', '0', '', '$2a$10$8ukcEfalSKsR2cMkuYyuU.7GvwlrcTO8.rj3PuANx2/vIcIMLF5OW', '0', '0', '', NULL, 'admin', '2021-08-13 11:05:54', '', NULL, NULL);
+INSERT INTO sys_user
+(user_id, dept_id, user_name, nick_name, user_type, email, phonenumber, sex, avatar, password, status, del_flag, login_ip, login_date, create_by, create_time, update_by, update_time, remark)
+VALUES(111, 200, 'gongdan_qr', '工单岗确认', '00', '5@1.com', '14156754566', '0', '', '$2a$10$d2dRqybvbQfWC/jb4BTUDenW2FDcOpF6K/fy6UnDFIjdu/papdpxW', '0', '0', '', NULL, 'admin', '2021-08-13 11:07:24', '', NULL, NULL);
+INSERT INTO sys_user
+(user_id, dept_id, user_name, nick_name, user_type, email, phonenumber, sex, avatar, password, status, del_flag, login_ip, login_date, create_by, create_time, update_by, update_time, remark)
+VALUES(112, 200, 'yunying_cl', '运营处理', '00', '1151@1.com', '13114111151', '0', '', '$2a$10$NQjY0VWQ5ZqvU6t9MFRDVuvj2LXPBN.xY1qVoPfB5HqGRi4u9rAHy', '0', '0', '', NULL, 'admin', '2021-08-13 11:08:34', '', NULL, NULL);
+INSERT INTO sys_user
+(user_id, dept_id, user_name, nick_name, user_type, email, phonenumber, sex, avatar, password, status, del_flag, login_ip, login_date, create_by, create_time, update_by, update_time, remark)
+VALUES(113, 200, 'zuoxihuifang', '座席回访', '00', '4567@1.com', '15435634567', '0', '', '$2a$10$SYu9pc310vWktniWN5SAE./q5Yftlf4DEZ1fFy4BNa3hGGYf4S8dW', '0', '0', '', NULL, 'admin', '2021-08-13 11:09:31', '', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_user_post
@@ -880,6 +913,12 @@ INSERT INTO `sys_user_role` VALUES (100, 2);
 INSERT INTO `sys_user_role` VALUES (101, 100);
 INSERT INTO `sys_user_role` VALUES (102, 100);
 INSERT INTO `sys_user_role` VALUES (103, 100);
+INSERT INTO sys_user_role (user_id, role_id) VALUES(108, 100);
+INSERT INTO sys_user_role (user_id, role_id) VALUES(109, 100);
+INSERT INTO sys_user_role (user_id, role_id) VALUES(110, 100);
+INSERT INTO sys_user_role (user_id, role_id) VALUES(111, 100);
+INSERT INTO sys_user_role (user_id, role_id) VALUES(112, 100);
+INSERT INTO sys_user_role (user_id, role_id) VALUES(113, 100);
 
 -- ----------------------------
 -- Table structure for workflow_leave
