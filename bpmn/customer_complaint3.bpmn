@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/testm1557911840930">
+  <process id="ticket_consumer_complaint" name="客诉工单"  isExecutable="true">
+    <startEvent id="start" name="客服登记"></startEvent>
+    <userTask id="complaint_consumer_service_check" name="工单岗审核" activiti:candidateUsers="${complaint_consumer_service_check_users}" activiti:formKey="complaint_consumer_service_check">
+      <extensionElements>
+        <activiti:formProperty id="complaint_consumer_service_check--__!!select--__!!处理类型--__!!i--__!!ACT_FLOW_complaint_consumer_handle_type" type="string"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <userTask id="complaint_operation_manager_check" name="运营审核" activiti:candidateUsers="${complaint_operation_manager_check_users}" activiti:formKey="complaint_operation_manager_check">
+      <extensionElements>
+        <activiti:formProperty id="complaint_operation_manager_check--__!!radio--__!!是否指派--__!!i--__!!是--__--否" type="string"></activiti:formProperty>
+        <activiti:formProperty id="complaint_operation_manager_check--__!!text--__!!指派人--__!!f__!!null" type="string"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <userTask id="complaint_operation_manager_handle" name="运营处理" activiti:candidateUsers="${complaint_operation_manager_handle_users}" activiti:formKey="complaint_operation_manager_handle"></userTask>
+    <userTask id="complaint_agent_handle" name="代理商处理" activiti:candidateUsers="${complaint_agent_handle_users}" activiti:formKey="complaint_agent_handle"></userTask>
+    <userTask id="complaint_consumer_service_confirm" name="工单岗确认" activiti:candidateUsers="${complaint_consumer_service_confirm_users}" activiti:formKey="complaint_consumer_service_confirm"></userTask>
+    <userTask id="complaint_agent_follow_up" name="坐席回访" activiti:candidateUsers="${complaint_agent_follow_up_users}" activiti:formKey="complaint_agent_follow_up">
+      <extensionElements>
+        <activiti:formProperty id="complaint_agent_follow_up--__!!radio--__!!审批意见--__!!i--__!!同意--__--不同意" type="string"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <endEvent id="end" name="流程结束"></endEvent>
+    <sequenceFlow id="_9" sourceRef="start" targetRef="complaint_consumer_service_check"></sequenceFlow>
+    <sequenceFlow id="_14" name="审核不通过" sourceRef="complaint_consumer_service_confirm" targetRef="complaint_operation_manager_check">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${complaint_consumer_service_confirm_flow == '2'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_16" name="满意" sourceRef="complaint_agent_follow_up" targetRef="end">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${complaint_agent_follow_up_flow == '1'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_18" name="自行处理" sourceRef="complaint_consumer_service_check" targetRef="complaint_agent_follow_up">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${complaint_consumer_service_check_flow == '2'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_13" name="审核通过" sourceRef="complaint_consumer_service_confirm" targetRef="complaint_agent_follow_up">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${complaint_consumer_service_confirm_flow == '1'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_2" sourceRef="complaint_operation_manager_handle" targetRef="complaint_consumer_service_confirm"></sequenceFlow>
+    <sequenceFlow id="_11" name="自行处理" sourceRef="complaint_operation_manager_check" targetRef="complaint_consumer_service_confirm">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${complaint_operation_manager_check_flow == '2'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_19" name="指派他人" sourceRef="complaint_operation_manager_check" targetRef="complaint_operation_manager_handle">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${complaint_operation_manager_check_flow == '1'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_21" name="审核不通过" sourceRef="complaint_consumer_service_confirm" targetRef="complaint_operation_manager_handle">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${complaint_consumer_service_confirm_flow == '3'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_6" sourceRef="complaint_agent_handle" targetRef="complaint_consumer_service_confirm"></sequenceFlow>
+    <sequenceFlow id="_10" sourceRef="complaint_consumer_service_check" targetRef="complaint_operation_manager_check">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${complaint_consumer_service_check_flow == '1'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_22" sourceRef="complaint_consumer_service_check" targetRef="complaint_agent_handle">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${complaint_consumer_service_check_flow == '3'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_7" name="审核不通过" sourceRef="complaint_consumer_service_confirm" targetRef="complaint_agent_handle">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${complaint_consumer_service_confirm_flow == '4'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_15" name="客户不满意" sourceRef="complaint_agent_follow_up" targetRef="complaint_consumer_service_check">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${complaint_agent_follow_up_flow == '2'}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_ticket_consumer_complaint">
+    <bpmndi:BPMNPlane bpmnElement="ticket_consumer_complaint" id="BPMNPlane_ticket_consumer_complaint">
+      <bpmndi:BPMNShape bpmnElement="start" id="BPMNShape_start">
+        <omgdc:Bounds height="30.0" width="30.0" x="75.0" y="282.5"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="complaint_consumer_service_check" id="BPMNShape_complaint_consumer_service_check">
+        <omgdc:Bounds height="55.0" width="85.0" x="180.0" y="270.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="complaint_operation_manager_check" id="BPMNShape_complaint_operation_manager_check">
+        <omgdc:Bounds height="55.0" width="85.0" x="335.0" y="205.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="complaint_operation_manager_handle" id="BPMNShape_complaint_operation_manager_handle">
+        <omgdc:Bounds height="55.0" width="85.0" x="505.0" y="205.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="complaint_agent_handle" id="BPMNShape_complaint_agent_handle">
+        <omgdc:Bounds height="55.0" width="85.0" x="335.0" y="340.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="complaint_consumer_service_confirm" id="BPMNShape_complaint_consumer_service_confirm">
+        <omgdc:Bounds height="55.0" width="85.0" x="695.0" y="270.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="complaint_agent_follow_up" id="BPMNShape_complaint_agent_follow_up">
+        <omgdc:Bounds height="55.0" width="85.0" x="895.0" y="270.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="end" id="BPMNShape_end">
+        <omgdc:Bounds height="28.0" width="28.0" x="1080.0" y="283.5"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="_13" id="BPMNEdge__13">
+        <omgdi:waypoint x="780.0" y="297.5"></omgdi:waypoint>
+        <omgdi:waypoint x="895.0" y="297.5"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_15" id="BPMNEdge__15">
+        <omgdi:waypoint x="937.936507936508" y="270.0"></omgdi:waypoint>
+        <omgdi:waypoint x="940.0" y="140.0"></omgdi:waypoint>
+        <omgdi:waypoint x="222.5" y="140.0"></omgdi:waypoint>
+        <omgdi:waypoint x="222.5" y="270.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_14" id="BPMNEdge__14">
+        <omgdi:waypoint x="737.5" y="270.0"></omgdi:waypoint>
+        <omgdi:waypoint x="737.5" y="165.0"></omgdi:waypoint>
+        <omgdi:waypoint x="377.5" y="165.0"></omgdi:waypoint>
+        <omgdi:waypoint x="377.5" y="205.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_16" id="BPMNEdge__16">
+        <omgdi:waypoint x="980.0" y="297.5"></omgdi:waypoint>
+        <omgdi:waypoint x="1080.0" y="297.5"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_19" id="BPMNEdge__19">
+        <omgdi:waypoint x="420.0" y="232.5"></omgdi:waypoint>
+        <omgdi:waypoint x="505.0" y="232.5"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_18" id="BPMNEdge__18">
+        <omgdi:waypoint x="222.5" y="325.0"></omgdi:waypoint>
+        <omgdi:waypoint x="222.5" y="462.0"></omgdi:waypoint>
+        <omgdi:waypoint x="937.5" y="462.0"></omgdi:waypoint>
+        <omgdi:waypoint x="937.5" y="325.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_2" id="BPMNEdge__2">
+        <omgdi:waypoint x="590.0" y="232.5"></omgdi:waypoint>
+        <omgdi:waypoint x="645.0" y="232.5"></omgdi:waypoint>
+        <omgdi:waypoint x="698.3653846153846" y="270.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_6" id="BPMNEdge__6">
+        <omgdi:waypoint x="420.0" y="367.42056074766356"></omgdi:waypoint>
+        <omgdi:waypoint x="645.0" y="367.0"></omgdi:waypoint>
+        <omgdi:waypoint x="700.8992805755396" y="325.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_7" id="BPMNEdge__7">
+        <omgdi:waypoint x="737.3921568627451" y="325.0"></omgdi:waypoint>
+        <omgdi:waypoint x="737.0" y="425.0"></omgdi:waypoint>
+        <omgdi:waypoint x="380.0" y="425.0"></omgdi:waypoint>
+        <omgdi:waypoint x="378.69565217391306" y="395.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_9" id="BPMNEdge__9">
+        <omgdi:waypoint x="105.0" y="297.5"></omgdi:waypoint>
+        <omgdi:waypoint x="180.0" y="297.5"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_11" id="BPMNEdge__11">
+        <omgdi:waypoint x="377.5" y="260.0"></omgdi:waypoint>
+        <omgdi:waypoint x="377.5" y="300.0"></omgdi:waypoint>
+        <omgdi:waypoint x="695.0" y="297.7951388888889"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_22" id="BPMNEdge__22">
+        <omgdi:waypoint x="265.0" y="316.69354838709677"></omgdi:waypoint>
+        <omgdi:waypoint x="335.0" y="348.30645161290323"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_21" id="BPMNEdge__21">
+        <omgdi:waypoint x="737.5" y="270.0"></omgdi:waypoint>
+        <omgdi:waypoint x="737.5" y="175.0"></omgdi:waypoint>
+        <omgdi:waypoint x="547.5" y="175.0"></omgdi:waypoint>
+        <omgdi:waypoint x="547.5" y="205.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_10" id="BPMNEdge__10">
+        <omgdi:waypoint x="265.0" y="279.6774193548387"></omgdi:waypoint>
+        <omgdi:waypoint x="335.0" y="250.32258064516128"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
